@@ -1,3 +1,5 @@
+from pathlib import Path
+#meh
 import pandas as pd
 import streamlit as st
 from sklearn.metrics import accuracy_score
@@ -6,9 +8,10 @@ import joblib
 #grundstruktur von Gemini, der Rest angepasst
 
 # Modell laden
-dt_model = joblib.load("trained_titanic_model.pkl")  
-lr_model = joblib.load("titanic_logistic_model.pkl")  
-mlp_model = joblib.load("titanic_MLPClassifier_model.pkl")
+model_dir = Path(__file__).resolve().parent
+dt_model = joblib.load(model_dir / "trained_titanic_model.pkl")
+lr_model = joblib.load(model_dir / "titanic_logistic_model.pkl")
+mlp_model = joblib.load(model_dir / "titanic_MLPClassifier_model.pkl")
 
 #Title
 
