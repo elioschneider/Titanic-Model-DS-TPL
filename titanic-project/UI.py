@@ -49,7 +49,7 @@ with col2:
     "Anzahl Geschwister/Ehepartner an Bord ", 0, 10, 0
     )
     parch = st.number_input("Anzahl Eltern/Kinder an Bord ", 0, 10, 0)
-    fare = st.number_input("Ticketpreis", 0.0, 500.0, 32.0)
+    fare = st.number_input("Ticketpreis (Average ca 13£)", 0.0, 500.0, 32.0)
 
 
 
