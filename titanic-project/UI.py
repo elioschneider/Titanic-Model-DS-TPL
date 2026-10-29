@@ -1,18 +1,37 @@
-import joblib
 import pandas as pd
 import streamlit as st
 from sklearn.metrics import accuracy_score
+import joblib
 
 #grundstruktur von Gemini, der Rest angepasst
 
-
-
 # Modell laden
-model = joblib.load("trained_titanic_model.pkl")
+dt_model = joblib.load("trained_titanic_model.pkl")  
+lr_model = joblib.load("titanic_logistic_model.pkl")  
+mlp_model = joblib.load("titanic_MLPClassifier_model.pkl")
+
+#Title
 
 st.title("Titanik Überlebensvorhersage")
 st.markdown("Denk dir einen fiktiven Passagier aus und schau ob er überlebt!")
-st.divider()
+
+
+#model auswählen
+model_choice = st.selectbox(
+    "Wähle das Machine Learning Modell:",
+    ["SkLearn_Decision_Tree", "SkLearn_Logistic_Regression", "SkLearn_MLP_Classifier"],
+)
+
+#model zuweisen
+if model_choice == "SkLearn_Decision_Tree":
+    model = dt_model
+elif model_choice == "SkLearn_Logistic_Regression":
+    model = lr_model
+else:
+    model = mlp_model
+
+
+st.divider() #divider (nur visuell auf der seite)
 
 
 # Eingabefelder für die Merkmale (Features)
@@ -28,7 +47,7 @@ with col2:
     )
     parch = st.number_input("Anzahl Eltern/Kinder an Bord ", 0, 10, 0)
     fare = st.number_input("Ticketpreis", 0.0, 500.0, 32.0)
-fareMode = st.write("(kann man ignorieren, das ist nur ein placeholder)")
+
 
 
 
@@ -48,7 +67,7 @@ input_data = pd.DataFrame(
             "SibSp": sibsp,
             "Parch": parch,
             "Fare": fare,
-            "FareMode": fareMode
+            
         }
     ]
 )
@@ -56,9 +75,9 @@ input_data = pd.DataFrame(
 
 # Accuracy anzeigen lassem
 st.metric(
-    label="Genauigkeit: liegt oft bei über", value=f"{0.8 * 100:.1f} %"
+    label="Genauigkeit: liegt bei über", value=f"{0.8 * 100:.1f} %"
 )
-st.write("und an guten Tagen auch bei über 90%")
+st.write("oft auch bei über 90%")
 
 # Vorhersage-Button
 if st.button("Überleben vorhersagen HIER"):
